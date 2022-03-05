@@ -1,3 +1,7 @@
+# CV Confidencial  
+  
+O serviço recebe um CV em PDF e transforma ele em um CV Confidencial para enviar para recrutadores que enviam vagas confidenciais.  
+  
 # Serverless - AWS Node.js Typescript
 
 This project has been generated using the `aws-nodejs-typescript` template from the [Serverless framework](https://www.serverless.com/).
