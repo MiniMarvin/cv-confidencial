@@ -1,7 +1,7 @@
 {
   "name": "cv-confidencial",
   "version": "1.0.0",
-  "description": "Serverless aws-nodejs-typescript template",
+  "description": "Transform a cv into ",
   "main": "serverless.ts",
   "scripts": {
     "test": "jest"
@@ -12,13 +12,18 @@
   "dependencies": {
     "@middy/core": "^2.5.3",
     "@middy/http-json-body-parser": "^2.5.3",
+    "hummus": "^1.0.83",
+    "hummus-recipe": "^2.0.1",
     "install": "^0.13.0",
+    "muhammara": "^2.2.0",
     "npm": "^8.5.3",
+    "pdf-lib": "^1.17.1",
     "pdf-parse": "^1.1.1"
   },
   "devDependencies": {
     "@serverless/typescript": "^2.23.0",
     "@types/aws-lambda": "^8.10.71",
+    "@types/hummus-recipe": "^1.8.5",
     "@types/jest": "^27.4.1",
     "@types/node": "^14.14.25",
     "@types/pdf-parse": "^1.1.1",
