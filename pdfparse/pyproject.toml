@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "pdfparse"
+version = "0.1.0"
+description = ""
+authors = ["Caio Gomes <caiogomes34@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+PyPDF2 = "^1.26.0"
+PyMuPDF = "^1.19.6"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
