@@ -1,0 +1,2 @@
+pymupdf==1.19.6; python_version >= "3.6"
+pypdf2==1.26.0

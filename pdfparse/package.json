@@ -1,0 +1,32 @@
+{
+  "name": "pdfparse",
+  "version": "1.0.0",
+  "description": "Parse PDF and make it confidential",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "poetry export -f requirements.txt > requirements.txt --without-hashes",
+    "deploy": "poetry export -f requirements.txt > requirements.txt --without-hashes && sls deploy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/minimarvin/cv-confidencial.git"
+  },
+  "keywords": [
+    "PDF",
+    "confidential",
+    "python"
+  ],
+  "author": "Caio Gomes",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/minimarvin/cv-confidencial/issues"
+  },
+  "homepage": "https://github.com/minimarvin/cv-confidencial#readme",
+  "dependencies": {
+    "serverless-python-requirements": "^5.3.1"
+  }
+}
