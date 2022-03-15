@@ -13,3 +13,18 @@ def hello(event, context):
     }
 
     return response
+
+
+# TODO: receive the s3 event -> download PDF -> confidentialize -> save on another bucket
+def parse_pdf(event, context):
+    body = {
+        "message": "pdf confidentialized",
+        "input": event
+    }
+
+    response = {
+        "statusCode": 200,
+        "body": json.dumps(body)
+    }
+
+    return response
