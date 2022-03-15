@@ -13,9 +13,10 @@ module.exports.uploadServiceFactory = (region) => {
    * @param {string} bucket The bucket where the operation is desired.
    * @param {string} filePath The bucket file path to the user to get info.
    * @param {string} contentType The content type of the file that the user is uploading.
+   * @param {boolean} shouldUpload Defines if the link is for uploading or retrieving data.
    * @returns {Promise<{uploadURL: string, path: string}>}
    */
-  const getSignedURL = async function(bucket, filePath, contentType) {
+  const getSignedURL = async function (bucket, filePath, contentType, shouldUpload) {
     const Key = filePath
 
     // Get signed URL from S3
@@ -27,7 +28,7 @@ module.exports.uploadServiceFactory = (region) => {
     }
 
     console.log('Params: ', s3Params)
-    const action = 'putObject'
+    const action = shouldUpload ? 'putObject' : 'getObject'
     const uploadURL = await s3.getSignedUrlPromise(action, s3Params)
 
     return {
@@ -36,7 +37,15 @@ module.exports.uploadServiceFactory = (region) => {
     }
   }
 
+  const getSignedUploadURL = async function (bucket, filePath, contentType) {
+    return getSignedURL(bucket, filePath, contentType, true)
+  }
+
+  const getSignedDownloadURL = async function (bucket, filePath, contentType) {
+    return getSignedURL(bucket, filePath, contentType, false)
+  }
+
   return {
-    getSignedURL
+    getSignedUploadURL, getSignedDownloadURL
   }
 }
