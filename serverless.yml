@@ -38,7 +38,13 @@ functions:
     runtime: python3.9
     handler: pdfparse/pdfparse/handler.hello
     events:
-      - s3: ${self:custom.CV_INPUT_BUCKET}
+      - s3: 
+          bucket: ${self:custom.CV_INPUT_BUCKET_NAME}
+          event: s3:ObjectCreated:*
+          rules: 
+            - prefix: public/
+            - suffix: .pdf
+          existing: true
   get_pdf_upload_link:
     runtime: nodejs14.x
     handler: fileService/build/handler.putAudioAuth
