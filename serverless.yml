@@ -41,7 +41,8 @@ functions:
      - s3: ${env:CV_INPUT_BUCKET}
   get_pdf_upload_link:
     runtime: nodejs14
-    handler: fileService/handler.putAudioAuth
+    codeUri: fileService/build
+    handler: handler.putAudioAuth
      - s3: ${env:CV_INPUT_BUCKET}
 
 
