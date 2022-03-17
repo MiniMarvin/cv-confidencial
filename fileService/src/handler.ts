@@ -6,16 +6,18 @@ const uploadService = uploadServiceFactory(process.env.AWS_REGION);
 export const putPdfUrl = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
-  const filePath = `public/${uuid()}.pdf`;
+  const fileName = uuid();
+  const filePath = `public/${fileName}.pdf`;
   const contentType = "application/pdf";
   const signedPayload = await uploadService.getSignedUploadURL(
     process.env.CV_INPUT_BUCKET,
     filePath,
     contentType
   );
+  const responsePayload = { ...signedPayload, fileName };
   return {
     statusCode: 200,
-    body: JSON.stringify(signedPayload),
+    body: JSON.stringify(responsePayload),
   };
 };
 
@@ -23,8 +25,8 @@ export const getConfidentialPdfUrl = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
   // TODO: use url params
-  const body = JSON.parse(event.body);
-  const filePath = `public/${body.url}.pdf`;
+  const fileName = event.queryStringParameters.file;
+  const filePath = `public/${fileName}.pdf`;
   const contentType = "application/pdf";
   const signedPayload = await uploadService.getSignedDownloadURL(
     process.env.CONFIDENTIAL_BUCKET,

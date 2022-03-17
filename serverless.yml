@@ -47,11 +47,18 @@ functions:
           existing: true
   get_pdf_upload_link:
     runtime: nodejs14.x
-    handler: fileService/build/handler.putAudioAuth
+    handler: fileService/build/handler.putPdfUrl
     events:
       - httpApi: 
           method: GET
-          path: /uploadLink
+          path: /pdf/upload
+  get_pdf_download_link:
+    runtime: nodejs14.x
+    handler: fileService/build/handler.getConfidentialPdfUrl
+    events:
+      - httpApi: 
+          method: GET
+          path: /pdf/download
 
 # you can add CloudFormation resource templates here
 resources:
