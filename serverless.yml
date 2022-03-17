@@ -1,50 +1,51 @@
 service: cv-confidencial
 # app and org for use with dashboard.serverless.com
 app: cv-confidencial
-org: caiogomes.dev
+org: minimarvin
 
 # You can pin your service to only deploy with a specific Serverless version
 # Check out our docs for more details
 frameworkVersion: '2'
 
+custom:
+  CONFIDENTIAL_BUCKET_NAME: ${opt:stage, self:provider.stage}-${self:service}-confidential-cv-result
+  CONFIDENTIAL_BUCKET: aws:s3:::${self:custom.CONFIDENTIAL_BUCKET_NAME}
+  CV_INPUT_BUCKET_NAME: ${opt:stage, self:provider.stage}-${self:service}-input-cv
+  CV_INPUT_BUCKET: aws:s3:::${self:custom.CV_INPUT_BUCKET_NAME}
+
 provider:
   name: aws
   lambdaHashingVersion: 20201221
+  stage: dev
+  region: us-east-1
+  environment:
+    CONFIDENTIAL_BUCKET_NAME: ${self:custom.CONFIDENTIAL_BUCKET_NAME}
+    CONFIDENTIAL_BUCKET: ${self:custom.CONFIDENTIAL_BUCKET}
+    CV_INPUT_BUCKET_NAME: ${self:custom.CV_INPUT_BUCKET_NAME}
+    CV_INPUT_BUCKET: ${self:custom.CV_INPUT_BUCKET}
 
-# you can overwrite defaults here
-stage: dev
-region: us-east-1
-
-plugins:
-  - serverless-dotenv-plugin
-
-# you can add statements to the Lambda function's IAM Role here
-iam:
-  role:
-    statements:
-      - Effect: "Allow"
-        Action:
-          - s3:PutObject
-          - s3:PutObjectAcl
-        Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "CVInput" } ] ]  }
-
-environment:
-  CONFIDENTIAL_BUCKET_NAME: ${opt:stage, self:provider.stage}-${self:service}-confidential-cv-result
-  CONFIDENTIAL_BUCKET: aws:s3:::${CONFIDENTIAL_BUCKET_NAME}
-  CV_INPUT_BUCKET_NAME: ${opt:stage, self:provider.stage}-${self:service}-input-cv
-  CV_INPUT_BUCKET: aws:s3:::${CV_INPUT_BUCKET_NAME}
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action:
+            - s3:PutObject
+            - s3:PutObjectAcl
+          Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "CVInput" } ] ]  }
 
 functions:
   parse_pdf:
-    runtime: python3.8
+    runtime: python3.9
     handler: pdfparse/pdfparse/handler.hello
-     - s3: ${env:CV_INPUT_BUCKET}
+    events:
+      - s3: ${self:custom.CV_INPUT_BUCKET}
   get_pdf_upload_link:
-    runtime: nodejs14
-    codeUri: fileService/build
-    handler: handler.putAudioAuth
-     - s3: ${env:CV_INPUT_BUCKET}
-
+    runtime: nodejs14.x
+    handler: fileService/build/handler.putAudioAuth
+    events:
+      - httpApi: 
+          method: GET
+          path: /uploadLink
 
 # you can add CloudFormation resource templates here
 resources:
@@ -52,14 +53,14 @@ resources:
     ConfidentialCVResult:
       Type: AWS::S3::Bucket
       Properties:
-        BucketName: ${env:CONFIDENTIAL_BUCKET_NAME}
+        BucketName: ${self:custom.CONFIDENTIAL_BUCKET_NAME}
         Tags:
           - Key: service
             Value: ${self:service}
     CVInput:
       Type: AWS::S3::Bucket
       Properties:
-        BucketName: ${env:CV_INPUT_BUCKET_NAME}
+        BucketName: ${self:custom.CV_INPUT_BUCKET_NAME}
         Tags:
           - Key: service
             Value: ${self:service}
