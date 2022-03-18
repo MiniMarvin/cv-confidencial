@@ -56,6 +56,8 @@ functions:
   parse_pdf:
     runtime: python3.8
     handler: pdfparse/pdfparse/handler.pdf_parse
+    memorySize: 4096
+    timeout: 20
     layers:
       - arn:aws:lambda:${self:provider.region}:770693421928:layer:Klayers-p38-PyMUPDF:1
     events:
@@ -69,6 +71,7 @@ functions:
   get_pdf_upload_link:
     runtime: nodejs14.x
     handler: fileService/build/handler.putPdfUrl
+    memorySize: 128
     events:
       - httpApi: 
           method: GET
@@ -76,6 +79,7 @@ functions:
   get_pdf_download_link:
     runtime: nodejs14.x
     handler: fileService/build/handler.getConfidentialPdfUrl
+    memorySize: 128
     events:
       - httpApi: 
           method: GET
