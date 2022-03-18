@@ -1,36 +1,15 @@
 import fitz
 
-def parse_first_page(file_path):
-    # READ IN PDF
+def parse_pages(file_path, output_path):
     doc = fitz.open(file_path)
 
     for page in doc:
-        # SEARCH
-        text = "Here"
-        text_instances = page.search_for(text)
-        fonts = page.get_fonts()
-        extracted_text = page.get_text()
-        # print(extracted_text)
-        col = fitz.utils.getColor("black")
-
-        get_line_blocks(page)
-
-        print(text_instances)
-
-        # HIGHLIGHT
-        # for inst in text_instances:
-        #     print(inst)
-        #     inst.y0 -= 8
-        #     inst.y1 -= 8
-        #     page.draw_rect(inst, color=col, fill=col, overlay=True)
-        #     # highlight.update()
-        # break
         lines = get_line_blocks(page)
         bound_texts(lines, page)
+        # to avoid issues with multiple pages files let's focus on the first page only
+        break
 
-
-    # OUTPUT
-    doc.save("output.pdf", garbage=4, deflate=True, clean=True)
+    doc.save(output_path, garbage=4, deflate=True, clean=True)
 
 def get_line_blocks(page):
     text = page.get_text()

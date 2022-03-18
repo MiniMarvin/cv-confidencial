@@ -13,6 +13,22 @@ custom:
   CV_INPUT_BUCKET_NAME: ${opt:stage, self:provider.stage}-${self:service}-input-cv
   CV_INPUT_BUCKET: aws:s3:::${self:custom.CV_INPUT_BUCKET_NAME}
 
+package:
+  exclude:
+    - coverage/**
+    - fileService/tests/**
+    - fileService/.gitignore
+    - .gitignore
+    - pdfparse/.gitignore
+    - pdfparse/.pytest_cache/**
+    - pdfparse/.venv/**
+    - pdfparse/assets/**
+    - pdfparse/output/**
+    - pdfparse/poetry.lock
+    - pdfparse/tests/**
+    - pdfparse/pyproject.toml
+    - pdfparse/README.rst
+
 provider:
   name: aws
   lambdaHashingVersion: 20201221
@@ -24,6 +40,7 @@ provider:
     CV_INPUT_BUCKET_NAME: ${self:custom.CV_INPUT_BUCKET_NAME}
     CV_INPUT_BUCKET: ${self:custom.CV_INPUT_BUCKET}
 
+  # TODO: make every function has it's own role to only be able to read or put on necessary buckets
   iam:
     role:
       statements:
@@ -31,7 +48,13 @@ provider:
           Action:
             - s3:PutObject
             - s3:PutObjectAcl
+            - s3:GetObject
           Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "CVInput" } ] ]  }
+        - Effect: "Allow"
+          Action:
+            - s3:PutObject
+            - s3:PutObjectAcl
+          Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "ConfidentialCVResult" } ] ]  }
 
 functions:
   parse_pdf:

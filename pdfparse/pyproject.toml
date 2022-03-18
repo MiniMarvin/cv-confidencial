@@ -8,6 +8,7 @@ authors = ["Caio Gomes <caiogomes34@gmail.com>"]
 python = "^3.9"
 PyPDF2 = "^1.26.0"
 PyMuPDF = "^1.19.6"
+boto3 = "^1.21.21"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
