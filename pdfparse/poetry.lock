@@ -22,14 +22,14 @@ tests_no_zope = ["coverage[toml] (>=5.0.2)", "hypothesis", "pympler", "pytest (>
 
 [[package]]
 name = "boto3"
-version = "1.21.21"
+version = "1.21.22"
 description = "The AWS SDK for Python"
 category = "main"
 optional = false
 python-versions = ">= 3.6"
 
 [package.dependencies]
-botocore = ">=1.24.21,<1.25.0"
+botocore = ">=1.24.22,<1.25.0"
 jmespath = ">=0.7.1,<2.0.0"
 s3transfer = ">=0.5.0,<0.6.0"
 
@@ -38,7 +38,7 @@ crt = ["botocore[crt] (>=1.21.0,<2.0a0)"]
 
 [[package]]
 name = "botocore"
-version = "1.24.21"
+version = "1.24.22"
 description = "Low-level, data-driven core of boto 3."
 category = "main"
 optional = false
@@ -67,14 +67,6 @@ description = "JSON Matching Expressions"
 category = "main"
 optional = false
 python-versions = ">=3.7"
-
-[[package]]
-name = "logging"
-version = "0.4.9.6"
-description = "A logging module for Python"
-category = "main"
-optional = false
-python-versions = "*"
 
 [[package]]
 name = "more-itertools"
@@ -219,8 +211,8 @@ python-versions = "*"
 
 [metadata]
 lock-version = "1.1"
-python-versions = "^3.9"
-content-hash = "2637fef5d83e37e846b9caf1f9f1fd8796dc6aa8a7a7314ffe576f44f9e2d4a2"
+python-versions = "^3.8"
+content-hash = "f8ff9ea5beaf5f6d6cb714f535a0b179ce0e2e3823be36a488c79f6e33ab4f8d"
 
 [metadata.files]
 atomicwrites = [
@@ -232,12 +224,12 @@ attrs = [
     {file = "attrs-21.4.0.tar.gz", hash = "sha256:626ba8234211db98e869df76230a137c4c40a12d72445c45d5f5b716f076e2fd"},
 ]
 boto3 = [
-    {file = "boto3-1.21.21-py3-none-any.whl", hash = "sha256:8fa32fcc8be38327bd667237223d71e5e4b2475f39d6882aca4dbad19fff8c29"},
-    {file = "boto3-1.21.21.tar.gz", hash = "sha256:6fa0622f308cfd1da758966fc98b52fbd74b80606d14586c8ad82c7a6c4f32d0"},
+    {file = "boto3-1.21.22-py3-none-any.whl", hash = "sha256:a56e34d8dc3390006a6d7ae5373f357917932045e874c82de2736f3b42c02b10"},
+    {file = "boto3-1.21.22.tar.gz", hash = "sha256:334f14ffbd89ddd15090e90b32e4fcea73d83b60b19ca2737a9264fd44096f35"},
 ]
 botocore = [
-    {file = "botocore-1.24.21-py3-none-any.whl", hash = "sha256:92daca8775e738a9db9b465d533019285f09d541e903233261299fd87c2f842c"},
-    {file = "botocore-1.24.21.tar.gz", hash = "sha256:7e976cfd0a61601e74624ef8f5246b40a01f2cce73a011ef29cf80a6e371d0fa"},
+    {file = "botocore-1.24.22-py3-none-any.whl", hash = "sha256:e812604653c635c78431b3dd168d3fc04e8c3514839226814c999336d5e59ea0"},
+    {file = "botocore-1.24.22.tar.gz", hash = "sha256:92ba8afeda48f5d2467811d87df401d703a25191f82882994d8d09a7d8b5b965"},
 ]
 colorama = [
     {file = "colorama-0.4.4-py2.py3-none-any.whl", hash = "sha256:9f47eda37229f68eee03b24b9748937c7dc3868f906e8ba69fbcbdd3bc5dc3e2"},
@@ -246,9 +238,6 @@ colorama = [
 jmespath = [
     {file = "jmespath-1.0.0-py3-none-any.whl", hash = "sha256:e8dcd576ed616f14ec02eed0005c85973b5890083313860136657e24784e4c04"},
     {file = "jmespath-1.0.0.tar.gz", hash = "sha256:a490e280edd1f57d6de88636992d05b71e97d69a26a19f058ecf7d304474bf5e"},
-]
-logging = [
-    {file = "logging-0.4.9.6.tar.gz", hash = "sha256:26f6b50773f085042d301085bd1bf5d9f3735704db9f37c1ce6d8b85c38f2417"},
 ]
 more-itertools = [
     {file = "more-itertools-8.12.0.tar.gz", hash = "sha256:7dc6ad46f05f545f900dd59e8dfb4e84a4827b97b3cfecb175ea0c7d247f6064"},

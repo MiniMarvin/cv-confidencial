@@ -22,7 +22,7 @@ def hello(event, context):
 
 
 # TODO: receive the s3 event -> download PDF -> confidentialize -> save on another bucket
-def parse_pdf(event, context):
+def pdf_parse(event, context):
     for record in event['Records']:
         bucket_name = record['s3']['bucket']['name']
         key = urllib.parse.unquote_plus(

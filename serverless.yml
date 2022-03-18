@@ -54,8 +54,10 @@ provider:
 
 functions:
   parse_pdf:
-    runtime: python3.9
-    handler: pdfparse/pdfparse/handler.hello
+    runtime: python3.8
+    handler: pdfparse/pdfparse/handler.pdf_parse
+    layers:
+      - arn:aws:lambda:${self:provider.region}:770693421928:layer:Klayers-p38-PyMUPDF:1
     events:
       - s3: 
           bucket: ${self:custom.CV_INPUT_BUCKET_NAME}
