@@ -2,7 +2,8 @@ import json
 import logging
 import urllib.parse
 import boto3
-from .getPdfText import parse_pages
+from getPdfText import parse_pages
+import os
 
 s3 = boto3.client('s3')
 
@@ -35,10 +36,11 @@ def parse_pdf(event, context):
             output_file = '/tmp/output_'+key
             parse_pages(input_file, output_file)
 
-            logging.info("uploading object: {} | bucket: {}", key, bucket_name)
-            response = s3.upload_file(output_file, bucket_name, key)
-            logging.info("processing finished! object: {} | bucket: {}", key, bucket_name)
-            logging.info("response: {} | object: {} | bucket: {}", response, key, bucket_name)
+            output_bucket_name = os.environ['CONFIDENTIAL_BUCKET_NAME']
+            logging.info("uploading object: {} | bucket: {}", key, output_bucket_name)
+            response = s3.upload_file(output_file, output_bucket_name, key)
+            logging.info("processing finished! object: {} | bucket: {}", key, output_bucket_name)
+            logging.info("response: {} | object: {} | bucket: {}", response, key, output_bucket_name)
         except Exception as e:
             # TODO: put data on a queue to reprocess this when the system has stabilized
             logging.error(e)

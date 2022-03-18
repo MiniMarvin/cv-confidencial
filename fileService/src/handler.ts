@@ -10,7 +10,7 @@ export const putPdfUrl = async (
   const filePath = `public/${fileName}.pdf`;
   const contentType = "application/pdf";
   const signedPayload = await uploadService.getSignedUploadURL(
-    process.env.CV_INPUT_BUCKET,
+    process.env.CV_INPUT_BUCKET_NAME,
     filePath,
     contentType
   );
@@ -29,7 +29,7 @@ export const getConfidentialPdfUrl = async (
   const filePath = `public/${fileName}.pdf`;
   const contentType = "application/pdf";
   const signedPayload = await uploadService.getSignedDownloadURL(
-    process.env.CONFIDENTIAL_BUCKET,
+    process.env.CONFIDENTIAL_BUCKET_NAME,
     filePath,
     contentType
   );

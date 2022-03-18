@@ -39,22 +39,18 @@ provider:
     CONFIDENTIAL_BUCKET: ${self:custom.CONFIDENTIAL_BUCKET}
     CV_INPUT_BUCKET_NAME: ${self:custom.CV_INPUT_BUCKET_NAME}
     CV_INPUT_BUCKET: ${self:custom.CV_INPUT_BUCKET}
-
+  
   # TODO: make every function has it's own role to only be able to read or put on necessary buckets
   iam:
     role:
       statements:
         - Effect: "Allow"
           Action:
+            - s3:ListBucket
             - s3:PutObject
             - s3:PutObjectAcl
             - s3:GetObject
-          Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "CVInput" } ] ]  }
-        - Effect: "Allow"
-          Action:
-            - s3:PutObject
-            - s3:PutObjectAcl
-          Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "ConfidentialCVResult" } ] ]  }
+          Resource: '*'
 
 functions:
   parse_pdf:
