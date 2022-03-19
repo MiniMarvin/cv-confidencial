@@ -1,6 +1,6 @@
 // Reference: https://aws.amazon.com/pt/blogs/compute/uploading-to-amazon-s3-directly-from-a-web-or-mobile-application/
 "use strict";
-export const uploadServiceFactory = (region: string) => {
+export const fileServiceFactory = (region: string) => {
   const AWS = require("aws-sdk");
   AWS.config.update({ region: region });
   const s3 = new AWS.S3();
@@ -25,12 +25,15 @@ export const uploadServiceFactory = (region: string) => {
     const Key = filePath;
 
     // Get signed URL from S3
-    const s3Params = {
+    const s3Params: any = {
       Bucket: bucket,
       Key,
       Expires: URL_EXPIRATION_SECONDS,
-      ContentType: contentType,
     };
+
+    if (shouldUpload) {
+      s3Params.ContentType = contentType;
+    }
 
     console.log("Params: ", s3Params);
     const action = shouldUpload ? "putObject" : "getObject";
@@ -52,14 +55,31 @@ export const uploadServiceFactory = (region: string) => {
 
   const getSignedDownloadURL = async function (
     bucket: string,
-    filePath: string,
-    contentType: string
+    filePath: string
   ) {
-    return getSignedURL(bucket, filePath, contentType, false);
+    return getSignedURL(bucket, filePath, null, false);
+  };
+
+  const checkFileExists = async function (
+    bucket: string,
+    filePath: string
+  ): Promise<boolean> {
+    const s3Params: any = {
+      Bucket: bucket,
+      Key: filePath,
+    };
+    try {
+      const headResult = await s3.headObject(s3Params).promise();
+      console.log(`head-result: ${headResult}`);
+    } catch (error) {
+      return false;
+    }
+    return true;
   };
 
   return {
     getSignedUploadURL,
     getSignedDownloadURL,
+    checkFileExists,
   };
 };

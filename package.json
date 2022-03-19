@@ -8,9 +8,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "buildpy": "cd pdfparse && poetry export -f requirements.txt > requirements.txt --without-hashes && cp requirements.txt .. && cd ..",
     "buildjs": "tsc",
-    "deploy": "npm run buildjs && sls deploy"
+    "deploy": "npm run buildjs && sls deploy",
+    "deploy-prod": "npm run buildjs && sls deploy --stage production"
   },
   "repository": {
     "type": "git",

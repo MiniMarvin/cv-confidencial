@@ -1,7 +1,7 @@
-import { uploadServiceFactory } from "./uploadService";
+import { fileServiceFactory } from "./fileService";
 import { v4 as uuid } from "uuid";
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
-const uploadService = uploadServiceFactory(process.env.AWS_REGION);
+const fileService = fileServiceFactory(process.env.AWS_REGION);
 
 export const putPdfUrl = async (
   event: APIGatewayProxyEvent
@@ -9,7 +9,7 @@ export const putPdfUrl = async (
   const fileName = uuid();
   const filePath = `public/${fileName}.pdf`;
   const contentType = "application/pdf";
-  const signedPayload = await uploadService.getSignedUploadURL(
+  const signedPayload = await fileService.getSignedUploadURL(
     process.env.CV_INPUT_BUCKET_NAME,
     filePath,
     contentType
@@ -24,17 +24,25 @@ export const putPdfUrl = async (
 export const getConfidentialPdfUrl = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
-  // TODO: use url params
   const fileName = event.queryStringParameters.file;
   const filePath = `public/${fileName}.pdf`;
-  const contentType = "application/pdf";
-  const signedPayload = await uploadService.getSignedDownloadURL(
+  const fileExists = await fileService.checkFileExists(
     process.env.CONFIDENTIAL_BUCKET_NAME,
-    filePath,
-    contentType
+    filePath
   );
-  return {
-    statusCode: 200,
-    body: JSON.stringify(signedPayload),
-  };
+  if (!fileExists) {
+    return {
+      statusCode: 404,
+      body: null,
+    };
+  } else {
+    const signedPayload = await fileService.getSignedDownloadURL(
+      process.env.CONFIDENTIAL_BUCKET_NAME,
+      filePath
+    );
+    return {
+      statusCode: 200,
+      body: JSON.stringify(signedPayload),
+    };
+  }
 };
