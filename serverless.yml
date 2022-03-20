@@ -34,6 +34,11 @@ provider:
   lambdaHashingVersion: 20201221
   stage: dev
   region: us-east-1
+  httpApi:
+    cors:
+      allowedOrigins:
+        - http://localhost:8000
+        - https://caiogomes.dev
   environment:
     CONFIDENTIAL_BUCKET_NAME: ${self:custom.CONFIDENTIAL_BUCKET_NAME}
     CONFIDENTIAL_BUCKET: ${self:custom.CONFIDENTIAL_BUCKET}
@@ -93,6 +98,16 @@ resources:
       Type: AWS::S3::Bucket
       Properties:
         BucketName: ${self:custom.CONFIDENTIAL_BUCKET_NAME}
+        CorsConfiguration:
+          CorsRules:
+            - AllowedMethods:
+                - GET
+              AllowedOrigins:
+                - https://caiogomes.dev
+                - http://localhost:8000
+                - '*'
+              AllowedHeaders: 
+                - '*'
         Tags:
           - Key: service
             Value: ${self:service}
@@ -100,6 +115,16 @@ resources:
       Type: AWS::S3::Bucket
       Properties:
         BucketName: ${self:custom.CV_INPUT_BUCKET_NAME}
+        CorsConfiguration:
+          CorsRules:
+            - AllowedMethods:
+                - PUT
+              AllowedOrigins:
+                - https://caiogomes.dev
+                - http://localhost:8000
+                - '*'
+              AllowedHeaders: 
+                - '*'
         Tags:
           - Key: service
             Value: ${self:service}
