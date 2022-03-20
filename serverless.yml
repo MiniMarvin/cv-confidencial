@@ -37,8 +37,11 @@ provider:
   httpApi:
     cors:
       allowedOrigins:
-        - http://localhost:8000
-        - https://caiogomes.dev
+        - '*'
+      allowedMethods:
+        - '*'
+      allowedHeaders:
+        - '*'
   environment:
     CONFIDENTIAL_BUCKET_NAME: ${self:custom.CONFIDENTIAL_BUCKET_NAME}
     CONFIDENTIAL_BUCKET: ${self:custom.CONFIDENTIAL_BUCKET}
@@ -103,8 +106,6 @@ resources:
             - AllowedMethods:
                 - GET
               AllowedOrigins:
-                - https://caiogomes.dev
-                - http://localhost:8000
                 - '*'
               AllowedHeaders: 
                 - '*'
@@ -120,8 +121,6 @@ resources:
             - AllowedMethods:
                 - PUT
               AllowedOrigins:
-                - https://caiogomes.dev
-                - http://localhost:8000
                 - '*'
               AllowedHeaders: 
                 - '*'
